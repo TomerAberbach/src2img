@@ -35,9 +35,9 @@ const puppeteer = require('puppeteer')
 const renderer = opts => {
   const themePath = opts.themePath
     ? /^[a-z]+$/.test(opts.themePath)
-      ? path.join(__dirname, `node_modules/prismjs/themes/prism-${opts.themePath}.css`)
+      ? path.join(__dirname, `themes/prism-${opts.themePath}.css`)
       : opts.themePath
-    : path.join(__dirname, 'node_modules/prismjs/themes/prism.css')
+    : path.join(__dirname, 'themes/prism.css')
 
   const style =
     `${fs.readFileSync(themePath)}
