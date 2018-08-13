@@ -1,6 +1,6 @@
 {
   "name": "src2img",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Tomer Aberbach <tomeraberbach@gmail.com> (https://tomeraberba.ch)",
   "description": "Converts source code to high quality images.",
   "keywords": [
