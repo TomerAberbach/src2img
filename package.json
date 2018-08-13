@@ -20,7 +20,8 @@
   },
   "license": "MIT",
   "files": [
-    "index.js"
+    "index.js",
+    "themes/*"
   ],
   "main": "index.js",
   "scripts": {
