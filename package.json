@@ -1,0 +1,42 @@
+{
+  "name": "src2img",
+  "version": "1.0.0",
+  "author": "Tomer Aberbach <tomeraberbach@gmail.com> (https://tomeraberba.ch)",
+  "description": "Converts source code to high quality images.",
+  "keywords": [
+    "source",
+    "images",
+    "screenshot",
+    "converter",
+    "beautiful"
+  ],
+  "homepage": "https://github.com/TomerAberbach/src2img",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TomerAberbach/src2img.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TomerAberbach/src2img/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "standard && standard-markdown README.md",
+    "publish:git": "git add . && git push --follow-tags",
+    "publish:patch": "npm test && npm version patch -m \"%s\" && npm publish && npm run publish:git",
+    "publish:minor": "npm test && npm version minor -m \"%s\" && npm publish && npm run publish:git",
+    "publish:major": "npm test && npm version major -m \"%s\" && npm publish && npm run publish:git"
+  },
+  "dependencies": {
+    "http-shutdown": "^1.2.0",
+    "prismjs": "^1.15.0",
+    "puppeteer": "^1.7.0"
+  },
+  "devDependencies": {
+    "standard": "*",
+    "standard-markdown": "*"
+  }
+}
