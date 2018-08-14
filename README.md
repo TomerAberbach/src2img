@@ -42,10 +42,15 @@ src2img({
 
 Look at the [CLI package](https://www.npmjs.com/package/src2img-cli) if you'd like to use this from the command line.
 
+Some rendered code:
+
+![example](example.png)
+
 ## Related
 
  * [filename2prism](https://www.npmjs.com/package/filename2prism)
  * [src2img-cli](https://www.npmjs.com/package/src2img-cli)
+ * [prismjs](https://www.npmjs.com/package/prismjs)
 
 ## Contributing
 
