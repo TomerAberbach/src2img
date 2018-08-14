@@ -161,11 +161,11 @@ const screenshot = opts => {
  * @return {Promise<Array<Buffer>>}
  */
 module.exports = opts => {
-  const o = Object.assign({render: renderer(opts)}, opts)
-
-  if (o.transparent) {
-    o.background = 'transparent'
+  if (opts.transparent) {
+    opts.background = 'transparent'
   }
+
+  const o = Object.assign({render: renderer(opts)}, opts)
 
   if (!o.port) {
     o.port = 8888
