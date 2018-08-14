@@ -69,7 +69,7 @@ const renderer = opts => {
        background: ${opts.background};  
      }` : ''}`.replace(/^ {5}/m, '')
 
-  return (src, lang) => `<html><head><style>${style}</style></head><body><pre><code class="language-${lang}">${
+  return (src, lang) => `<html><head><style>${style}</style></head><body><pre class="language-${lang}"><code class="language-${lang}">${
     prism.highlight(src, prism.languages[lang], lang)
   }</code></pre></body></html>`
 }
