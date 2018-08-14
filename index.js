@@ -65,7 +65,7 @@ const renderer = opts => {
        margin: 0;
      }
 
-     ${opts.background ? `code[class*='language-'] {
+     ${opts.background ? `pre[class*='language-'], code[class*='language-'] {
        background: ${opts.background};  
      }` : ''}`.replace(/^ {5}/m, '')
 
@@ -162,7 +162,7 @@ const screenshot = opts => {
  */
 module.exports = opts => {
   if (opts.transparent) {
-    opts.background = 'transparent'
+    opts.background = 'none'
   }
 
   const o = Object.assign({render: renderer(opts)}, opts)
