@@ -71,7 +71,7 @@ Some rendered code:
 
 Stars are always welcome!
 
-For bugs and feature requests, [please create an issue](https://github.com/TomerAberbach/parse-imports/issues/new).
+For bugs and feature requests, [please create an issue](https://github.com/TomerAberbach/src2img/issues/new).
 
 ## License
 
