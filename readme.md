@@ -75,4 +75,4 @@ For bugs and feature requests, [please create an issue](https://github.com/Tomer
 
 ## License
 
-[MIT](https://github.com/TomerAberbach/src2img/blob/master/license) © [Tomer Aberbach](https://github.com/TomerAberbach)
+[MIT](https://github.com/TomerAberbach/src2img/blob/main/license) © [Tomer Aberbach](https://github.com/TomerAberbach)
