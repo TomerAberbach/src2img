@@ -6,9 +6,6 @@
   <a href="https://npmjs.org/package/src2img">
     <img src="https://badgen.now.sh/npm/v/src2img" alt="version" />
   </a>
-  <a href="https://github.com/TomerAberbach/src2img/actions">
-    <img src="https://github.com/TomerAberbach/src2img/workflows/CI/badge.svg" alt="CI" />
-  </a>
   <a href="https://bundlephobia.com/result?p=src2img">
     <img src="https://badgen.net/bundlephobia/minzip/src2img" alt="minzip size" />
   </a>
