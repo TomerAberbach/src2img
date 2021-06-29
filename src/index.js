@@ -22,9 +22,9 @@ const renderer = async ({
 }) => {
   themePath = themePath
     ? /^[a-z]+$/u.test(themePath)
-      ? join(currentDir, `themes/prism-${themePath}.css`)
+      ? join(currentDir, `../themes/prism-${themePath}.css`)
       : themePath
-    : join(currentDir, `themes/prism.css`)
+    : join(currentDir, `../themes/prism.css`)
 
   const style = `${await fs.readFile(themePath, `utf8`)}
 
@@ -54,7 +54,7 @@ const renderer = async ({
      ${
        background
          ? `pre[class*='language-'], code[class*='language-'] {
-       background: ${background};  
+       background: ${background};
      }`
          : ``
      }`.replace(/^ {5}/mu, ``)
@@ -118,7 +118,7 @@ const screenshot = async ({
   return images
 }
 
-export default async ({
+const src2img = async ({
   themePath,
   fontFamily,
   fontSize,
@@ -146,3 +146,5 @@ export default async ({
     }),
     port
   })
+
+export default src2img

@@ -1,5 +1,5 @@
 import { promises as fs } from 'fs'
-import src2img from './index.js'
+import src2img from './src/index.js'
 
 const run = async () => {
   const source = await fs.readFile(`./example.js`, `utf8`)
