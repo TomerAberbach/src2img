@@ -4,16 +4,28 @@
 
 <div align="center">
   <a href="https://npmjs.org/package/src2img">
-    <img src="https://badgen.now.sh/npm/v/src2img" alt="version" />
+    <img src="https://badgen.net/npm/v/src2img" alt="version" />
   </a>
-  <a href="https://bundlephobia.com/result?p=src2img">
-    <img src="https://badgen.net/bundlephobia/minzip/src2img" alt="minzip size" />
+  <a href="https://github.com/TomerAberbach/src2img/actions">
+    <img src="https://github.com/TomerAberbach/src2img/workflows/CI/badge.svg" alt="CI" />
+  </a>
+  <a href="https://unpkg.com/src2img/dist/index.js">
+    <img src="https://deno.bundlejs.com/?q=src2img&badge" alt="gzip size" />
+  </a>
+  <a href="https://unpkg.com/src2img/dist/index.js">
+    <img src="https://deno.bundlejs.com/?q=src2img&config={%22compression%22:{%22type%22:%22brotli%22}}&badge" alt="brotli size" />
   </a>
 </div>
 
 <div align="center">
   Converts source code to high quality images.
 </div>
+
+## Features
+
+- **Wow:** so amazing
+- **Amazing:** so wow
+- **Fancy:** has a tie and everything
 
 ## Install
 
@@ -24,56 +36,11 @@ $ npm i src2img
 ## Usage
 
 ```js
-import { promises as fs } from 'fs'
-import src2img from 'src2img'
-import { join } from 'path'
+import src2Img from 'src2img'
 
-const src = 'path/to/sources'
-const out = 'path/to/out'
-
-const names = await fs.readdir(src)
-const srcs = Promise.all(
-  names.map(async name => ({
-    name,
-    src: await fs.readFile(join(src, name), `utf8`)
-  }))
-)
-
-const images = await src2img({
-  fontSize: 20, // Font size and unit control the size and quality of the image
-  fontSizeUnit: 'pt',
-  padding: 3,
-  paddingUnit: 'vw', // Using 'px' does not scale with font size
-  type: 'png', // png or jpeg
-  src: srcs.map(({ src }) => [
-    src,
-    `javascript` // https://prismjs.com/index.html#languages-list
-    // See https://www.npmjs.com/package/filename2prism for getting alias from filename
-  ])
-})
-
-await Promise.all(
-  images.map((image, i) =>
-    fs.writeFile(
-      join(out, `${srcs[i].name.replace(/\.[^.]+$/g, '')}.png`),
-      image
-    )
-  )
-)
+console.log(src2Img())
+//=> Hello World!
 ```
-
-Look at the [CLI package](https://www.npmjs.com/package/src2img-cli) if you'd
-like to use this from the command line.
-
-Some rendered code:
-
-![example](example.png)
-
-## Related
-
-- [filename2prism](https://www.npmjs.com/package/filename2prism)
-- [src2img-cli](https://www.npmjs.com/package/src2img-cli)
-- [prismjs](https://www.npmjs.com/package/prismjs)
 
 ## Contributing
 

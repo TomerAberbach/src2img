@@ -1,7 +1,7 @@
-import { join, dirname } from 'path'
-import { promises as fs } from 'fs'
-import http from 'http'
-import { fileURLToPath } from 'url'
+import { dirname, join } from 'node:path'
+import { promises as fs } from 'node:fs'
+import http from 'node:http'
+import { fileURLToPath } from 'node:url'
 import prism from 'prismjs'
 import httpShutdown from 'http-shutdown'
 import puppeteer from 'puppeteer'
@@ -18,8 +18,17 @@ const renderer = async ({
   fontSizeUnit = `px`,
   padding = 0,
   paddingUnit = `px`,
-  background
-}) => {
+  background,
+}: Pick<
+  Options,
+  | `themePath`
+  | `fontFamily`
+  | `fontSize`
+  | `fontSizeUnit`
+  | `padding`
+  | `paddingUnit`
+  | `background`
+>) => {
   themePath = themePath
     ? /^[a-z]+$/u.test(themePath)
       ? join(currentDir, `../themes/prism-${themePath}.css`)
@@ -59,26 +68,39 @@ const renderer = async ({
          : ``
      }`.replace(/^ {5}/mu, ``)
 
-  return (src, lang) =>
+  return (src: string, lang: string) =>
     `<html><head><style>${style}</style></head><body><pre class="language-${lang}"><code class="language-${lang}">${prism.highlight(
       src,
-      prism.languages[lang],
-      lang
+      prism.languages[lang]!,
+      lang,
     )}</code></pre></body></html>`
 }
 
-const startServer = ({ srcs, render, port }) =>
-  new Promise((resolve, reject) => {
+const startServer = ({
+  srcs,
+  port,
+  render,
+}: Pick<Options, `srcs` | `port`> & {
+  render: (src: string, lang: string) => string
+}): Promise<ReturnType<typeof httpShutdown>> =>
+  new Promise(resolve => {
     const server = httpShutdown(
       http.createServer((req, res) => {
-        res.writeHeader(200, { 'Content-Type': `text/html` })
-        const item = srcs[parseInt(req.url.split(`?`)[1], 10)]
-        res.write(render(item[0], item[1]))
+        const index = parseInt(req.url!.split(`?`)[1] ?? ``, 10)
+        if (isNaN(index)) {
+          res.writeHead(404).end()
+          return
+        }
+
+        const [src, lang] = srcs[index]!
+        res
+          .writeHead(200, { 'Content-Type': `text/html` })
+          .write(render(src, lang))
         res.end()
-      })
+      }),
     )
 
-    server.listen(port, err => (err ? reject(err) : resolve(server)))
+    server.listen(port, () => resolve(server))
   })
 
 const screenshot = async ({
@@ -86,7 +108,9 @@ const screenshot = async ({
   type = `png`,
   srcs,
   render,
-  port
+  port,
+}: Pick<Options, `transparent` | `type` | `srcs` | `port`> & {
+  render: (src: string, lang: string) => string
 }) => {
   const server = await startServer({ srcs, render, port })
 
@@ -96,18 +120,19 @@ const screenshot = async ({
   const images = []
   for (let i = 0; i < srcs.length; i++) {
     await page.goto(`http://localhost:${port}?${i}`, {
-      waitUntil: `domcontentloaded`
+      waitUntil: `domcontentloaded`,
     })
+    // eslint-disable-next-line typescript/no-loop-func
     const [width, height] = await page.evaluate(() => {
-      const element = document.getElementsByTagName(`code`)[0]
-      return [element.offsetWidth, element.offsetHeight]
+      const element = document.getElementsByTagName(`code`)[0]!
+      return [element.offsetWidth, element.offsetHeight] as const
     })
     await page.setViewport({ width, height })
     const image = await page.screenshot({
       type,
       quality: type === `png` ? undefined : 100,
       omitBackground: transparent,
-      fullPage: true
+      fullPage: true,
     })
     images.push(image)
   }
@@ -129,8 +154,8 @@ const src2img = async ({
   srcs,
   transparent,
   type,
-  port = 8888
-}) =>
+  port = 8888,
+}: Options): Promise<Buffer[]> =>
   screenshot({
     transparent,
     type,
@@ -142,9 +167,23 @@ const src2img = async ({
       fontSizeUnit,
       padding,
       paddingUnit,
-      background: transparent ? `none` : background
+      background: transparent ? `none` : background,
     }),
-    port
+    port,
   })
+
+export type Options = Readonly<{
+  themePath?: string
+  fontFamily?: string
+  fontSize: number
+  fontSizeUnit?: string
+  padding?: number
+  paddingUnit: string
+  background?: string
+  srcs: readonly [string, string][]
+  transparent?: boolean
+  type?: 'png' | 'jpeg'
+  port?: number
+}>
 
 export default src2img

@@ -21,57 +21,41 @@
   },
   "license": "MIT",
   "files": [
-    "src"
+    "dist"
   ],
   "type": "module",
+  "sideEffects": false,
   "engines": {
-    "node": ">= 12.17"
+    "node": ">= 18"
   },
-  "exports": "./src/index.js",
-  "module": "./src/index.js",
-  "types": "./src/index.d.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "require": "./dist/index.cjs",
+    "import": "./dist/index.js"
+  },
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "scripts": {
-    "prepare": "pnpx --no-install simple-git-hooks",
-    "lint:prettier:base": "prettier --loglevel silent --ignore-path .gitignore",
-    "lint:prettier": "run-s \"lint:prettier:base -- --write .\"",
-    "lint:eslint:base": "eslint --cache --ext js --ignore-path .gitignore",
-    "lint:eslint": "run-s \"lint:eslint:base -- --fix .\"",
-    "lint": "run-s lint:*"
+    "prepare": "tomer install",
+    "format": "tomer format",
+    "lint": "tomer lint",
+    "typecheck": "tomer typecheck",
+    "build": "tomer build",
+    "clean": "tomer clean dist",
+    "prepublishOnly": "tomer build"
   },
-  "prettier": "@tomer/prettier-config",
-  "eslintConfig": {
-    "extends": "@tomer"
-  },
-  "lint-staged": {
-    "*.js": [
-      "run-s \"lint:prettier:base -- --write {@}\" --",
-      "run-s \"lint:eslint:base -- --fix {@}\" --"
-    ],
-    "*.ts": "run-s \"lint:prettier:base -- --write {@}\" --",
-    "*.{json,yml,md}": "run-s \"lint:prettier:base -- --write {@}\" --"
-  },
-  "commitlint": {
-    "extends": "@commitlint/config-conventional"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "pnpx --no-install lint-staged",
-    "commit-msg": "pnpx --no-install commitlint -e"
-  },
+  "prettier": "tomer/prettier",
   "dependencies": {
-    "http-shutdown": "1.2.2",
-    "prismjs": "1.27.0",
-    "puppeteer": "13.4.1"
+    "http-shutdown": "^1.2.2",
+    "prismjs": "^1.29.0",
+    "puppeteer": "^22.6.4"
   },
   "devDependencies": {
-    "@commitlint/cli": "12.1.4",
-    "@commitlint/config-conventional": "12.1.4",
-    "@tomer/eslint-config": "0.1.1",
-    "@tomer/prettier-config": "0.1.0",
-    "eslint": "7.29.0",
-    "lint-staged": "11.0.0",
-    "npm-run-all": "4.1.5",
-    "prettier": "2.3.2",
-    "simple-git-hooks": "2.5.1",
-    "typescript": "4.3.4"
+    "@types/prismjs": "^1.26.3",
+    "eslint": "^8",
+    "prettier": "^3.2.5",
+    "tomer": "^3.1.4",
+    "typescript": "^5.4.5"
   }
 }
