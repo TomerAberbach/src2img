@@ -21,12 +21,6 @@
   Converts source code to high quality images.
 </div>
 
-## Features
-
-- **Wow:** so amazing
-- **Amazing:** so wow
-- **Fancy:** has a tie and everything
-
 ## Install
 
 ```sh
@@ -36,11 +30,61 @@ $ npm i src2img
 ## Usage
 
 ```js
-import src2Img from 'src2img'
+import fs from 'node:fs/promises'
+import { join } from 'node:path'
+import src2img from 'src2img'
 
-console.log(src2Img())
-//=> Hello World!
+const src = `path/to/sources`
+const out = `path/to/out`
+
+const names = await fs.readdir(src)
+const srcs = Promise.all(
+  names.map(async name => ({
+    name,
+    src: await fs.readFile(join(src, name), `utf8`),
+  })),
+)
+
+const images = await src2img({
+  // Font size and unit control the size and quality of the image.
+  fontSize: 20,
+  fontSizeUnit: `pt`,
+  padding: 3,
+  // Using 'px' does not scale with font size.
+  paddingUnit: `vw`,
+  // Png or jpeg
+  type: `png`,
+  src: srcs.map(({ src }) => [
+    src,
+    // https://prismjs.com/index.html#languages-list
+    `javascript`,
+    // See https://www.npmjs.com/package/filename2prism for getting alias from
+    // filename.
+  ]),
+})
+
+await Promise.all(
+  images.map((image, i) =>
+    fs.writeFile(
+      join(out, `${srcs[i].name.replaceAll(/\.[^.]+$/gu, ``)}.png`),
+      image,
+    ),
+  ),
+)
 ```
+
+Look at the [CLI package](https://www.npmjs.com/package/src2img-cli) if you'd
+like to use this from the command line.
+
+Some rendered code:
+
+![example](example.png)
+
+## Related
+
+- [filename2prism](https://www.npmjs.com/package/filename2prism)
+- [src2img-cli](https://www.npmjs.com/package/src2img-cli)
+- [prismjs](https://www.npmjs.com/package/prismjs)
 
 ## Contributing
 
