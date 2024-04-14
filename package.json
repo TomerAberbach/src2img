@@ -21,7 +21,8 @@
   },
   "license": "MIT",
   "files": [
-    "dist"
+    "dist",
+    "themes"
   ],
   "type": "module",
   "sideEffects": false,
