@@ -9,12 +9,6 @@
   <a href="https://github.com/TomerAberbach/src2img/actions">
     <img src="https://github.com/TomerAberbach/src2img/workflows/CI/badge.svg" alt="CI" />
   </a>
-  <a href="https://unpkg.com/src2img/dist/index.js">
-    <img src="https://deno.bundlejs.com/?q=src2img&badge" alt="gzip size" />
-  </a>
-  <a href="https://unpkg.com/src2img/dist/index.js">
-    <img src="https://deno.bundlejs.com/?q=src2img&config={%22compression%22:{%22type%22:%22brotli%22}}&badge" alt="brotli size" />
-  </a>
 </div>
 
 <div align="center">
