@@ -1,0 +1,6 @@
+onlyBuiltDependencies:
+  - esbuild
+  - puppeteer
+  - unrs-resolver
+
+shellEmulator: true
