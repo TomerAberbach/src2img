@@ -122,7 +122,6 @@ const screenshot = async ({
     await page.goto(`http://localhost:${port}?${i}`, {
       waitUntil: `domcontentloaded`,
     })
-    // eslint-disable-next-line typescript/no-loop-func
     const [width, height] = await page.evaluate(() => {
       const element = document.getElementsByTagName(`code`)[0]!
       return [element.offsetWidth, element.offsetHeight] as const
@@ -138,7 +137,9 @@ const screenshot = async ({
   }
 
   await browser.close()
-  await new Promise(resolve => server.shutdown(resolve))
+  await new Promise(resolve => {
+    server.shutdown(resolve)
+  })
 
   return images
 }
@@ -156,21 +157,23 @@ const src2img = async ({
   type,
   port = 8888,
 }: Options): Promise<Buffer[]> =>
-  screenshot({
-    transparent,
-    type,
-    srcs,
-    render: await renderer({
-      themePath,
-      fontFamily,
-      fontSize,
-      fontSizeUnit,
-      padding,
-      paddingUnit,
-      background: transparent ? `none` : background,
-    }),
-    port,
-  })
+  (
+    await screenshot({
+      transparent,
+      type,
+      srcs,
+      render: await renderer({
+        themePath,
+        fontFamily,
+        fontSize,
+        fontSizeUnit,
+        padding,
+        paddingUnit,
+        background: transparent ? `none` : background,
+      }),
+      port,
+    })
+  ).map(array => Buffer.from(array))
 
 export type Options = Readonly<{
   themePath?: string
@@ -182,7 +185,7 @@ export type Options = Readonly<{
   background?: string
   srcs: readonly [string, string][]
   transparent?: boolean
-  type?: 'png' | 'jpeg'
+  type?: `png` | `jpeg`
   port?: number
 }>
 
